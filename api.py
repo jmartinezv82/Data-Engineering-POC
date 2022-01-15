@@ -3,7 +3,7 @@ from flask import Flask, jsonify
 from flask_swagger import swagger
 from pytz import utc
 from flask_apscheduler import APScheduler
-from data_ingestion import get_and_save_articles
+from data_ingestion import get_and_save_articles, get_articles_from_mongo
 
 config = dotenv_values(".env")
 
@@ -21,16 +21,25 @@ app.config.from_object(Config())
 
 @app.route("/")
 def home():
-    swag = swagger(app)
+    swag = swagger(app, from_file_keyword='swagger_from_file')
     swag['info']['version'] = "1.0"
     swag['info']['title'] = "Data Enfinerring POC"
     return jsonify(swag)
 
 
-@app.route("/api/data/get")
+@app.route("/api/data/get", methods=['GET'])
 def api_data_get():
+    """
+    An endpoint that return all articles saved in mongodb atlas service
+    ---
+    tags:
+    - articles
+    responses:
+      200:
+        description: Hacked some hacks
+    """
     try:
-        return jsonify(get_and_save_articles())
+        return jsonify(get_articles_from_mongo())
     except IndexError:
         return jsonify(IndexError)
 
