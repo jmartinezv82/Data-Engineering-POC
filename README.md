@@ -31,3 +31,7 @@ python3 api.py
 ```bash
 deactivate
 ```
+
+## Url de app desplegada en heroku
+
+https://data-engineering-poc.herokuapp.com/
