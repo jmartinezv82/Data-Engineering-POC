@@ -1,15 +1,18 @@
 import uuid
-from flask import jsonify
+import os
 from dotenv import dotenv_values
 from pymongo import MongoClient
 import requests
 
 config = dotenv_values(".env")
-client = MongoClient(config.get('MONGO_URL'))
+mongo_url_env = os.environ['MONGO_URL'] if config.get('MONGO_URL') is None else config.get('MONGO_URL')
+api_env = os.environ['API'] if config.get('API') is None else config.get('API')
+
+client = MongoClient(mongo_url_env)
 
 
 def get_articles():
-    r = requests.get(config.get('API') + '/articles')
+    r = requests.get(api_env + '/articles')
     return r.json()
 
 

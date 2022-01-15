@@ -8,8 +8,7 @@ from data_ingestion import get_and_save_articles, get_articles_from_mongo
 
 config = dotenv_values(".env")
 
-print('+++++++', config.get('API'))
-print('======', os.environ['MINUTES_CRONJOB'])
+minutes_env = os.environ['MINUTES_CRONJOB'] if config.get('MINUTES_CRONJOB') is None else config.get('MINUTES_CRONJOB')
 
 
 # set configuration values
@@ -57,7 +56,7 @@ scheduler.start()
 
 
 # interval examples
-@scheduler.task("interval", id="do_save_info", minutes=30, misfire_grace_time=900)
+@scheduler.task("interval", id="do_save_info", minutes=int(minutes_env), misfire_grace_time=900)
 def save_info():
     get_and_save_articles()
 
