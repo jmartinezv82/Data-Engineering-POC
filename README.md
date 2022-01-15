@@ -14,6 +14,15 @@ Iniciar virtualenv
 Mac/Linux: . venv/bin/activate
 Windows: venv\Scripts\activate
 ```
+## Desarrollo
+Para desarrollo se debe crear un archivo `.env` en el root de la app y setear las siguientes variables:
+```commandline
+API=https://api.spaceflightnewsapi.net/v3
+MINUTES_CRONJOB=30
+MONGO_USER=
+MONGO_PASSWORD=
+MONGO_URL=
+```
 
 ## Instalar dependencias
 
