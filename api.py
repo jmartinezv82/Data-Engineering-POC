@@ -53,7 +53,7 @@ scheduler.start()
 
 
 # interval examples
-@scheduler.task("interval", id="do_save_info", minutes=int(config.get('MINUTES_CRONJOB')), misfire_grace_time=900)
+@scheduler.task("interval", id="do_save_info", minutes=30, misfire_grace_time=900)
 def save_info():
     get_and_save_articles()
 
