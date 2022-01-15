@@ -1,3 +1,4 @@
+import os
 from dotenv import dotenv_values
 from flask import Flask, jsonify
 from flask_swagger import swagger
@@ -6,6 +7,9 @@ from flask_apscheduler import APScheduler
 from data_ingestion import get_and_save_articles, get_articles_from_mongo
 
 config = dotenv_values(".env")
+
+print('+++++++', config.get('API'))
+print('======', os.environ['MINUTES_CRONJOB'])
 
 
 # set configuration values

@@ -9,7 +9,7 @@ Mac/Linux: python3 -m venv venv
 Windows: py -3 -m venv venv
 ```
 
-Iniciar proyecto
+Iniciar virtualenv
 ```bash
 Mac/Linux: . venv/bin/activate
 Windows: venv\Scripts\activate
@@ -19,6 +19,11 @@ Windows: venv\Scripts\activate
 
 ```bash
 pip3 install -r requirements.txt
+```
+
+## Iniciar proyecto
+```bash
+python3 api.py
 ```
 
 ## desactivar virtualenv
