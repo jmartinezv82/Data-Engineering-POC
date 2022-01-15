@@ -1,13 +1,22 @@
 from dotenv import dotenv_values
-from pymongo import MongoClient
 from flask import Flask, jsonify
 from flask_swagger import swagger
+from pytz import utc
+from flask_apscheduler import APScheduler
 from data_ingestion import get_and_save_articles
 
 config = dotenv_values(".env")
-client = MongoClient(config.get('MONGO_URL'))
 
+
+# set configuration values
+class Config:
+    SCHEDULER_TIMEZONE = utc
+    SCHEDULER_API_ENABLED = True
+
+
+# create app
 app = Flask(__name__)
+app.config.from_object(Config())
 
 
 @app.route("/")
@@ -26,5 +35,20 @@ def api_data_get():
         return jsonify(IndexError)
 
 
+# initialize scheduler
+scheduler = APScheduler()
+# if you don't wanna use a config, you can set options here:
+# scheduler.api_enabled = True
+scheduler.init_app(app)
+scheduler.start()
+
+
+# interval examples
+@scheduler.task("interval", id="do_save_info", minutes=int(config.get('MINUTES_CRONJOB')), misfire_grace_time=900)
+def save_info():
+    get_and_save_articles()
+
+
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=5000, debug=False)
+

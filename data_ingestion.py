@@ -25,4 +25,3 @@ def get_and_save_articles():
         "status": 200,
         "documents_saved": len(result.inserted_ids)
     }
-
